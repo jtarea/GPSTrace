@@ -1,0 +1,18 @@
+server:
+  port: 8889
+
+
+spring:
+  application:
+    name: trace-location
+
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch
+      cluster-nodes: 127.0.0.1:9300
+
+
