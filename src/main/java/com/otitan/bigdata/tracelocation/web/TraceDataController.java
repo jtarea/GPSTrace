@@ -6,8 +6,12 @@ import com.otitan.bigdata.tracelocation.entity.TraceData;
 import com.otitan.bigdata.tracelocation.repository.TraceDataRepository;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.sort.SortBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.*;
 import org.springframework.http.HttpStatus;
@@ -57,7 +61,7 @@ public class TraceDataController {
                 .must(QueryBuilders.termQuery("deviceId", deviceId));
 
         SearchQuery searchQuery = new NativeSearchQueryBuilder()
-                .withQuery(qb)
+                .withQuery(qb).withSort(SortBuilders.fieldSort("time").order(SortOrder.ASC))
                 .build();
 
         List<TraceData> traceDataList = elasticsearchTemplate.queryForList(searchQuery, TraceData.class);
